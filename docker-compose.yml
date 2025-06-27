@@ -1,26 +1,19 @@
-version: '3.8'
-
 services:
   db:
-    image: mysql:8.0
-    container_name: mysql_db
-    restart: always
+    image: mysql:8.3
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: mydatabase
+      MYSQL_DATABASE: mydb
       MYSQL_USER: user
-      MYSQL_PASSWORD: userpassword
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: rootpassword
     ports:
       - "3306:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - dbdata:/var/lib/mysql
 
   web:
     build: .
-    container_name: django_web
-    command: >
-      sh -c "python manage.py migrate &&
-             python manage.py runserver 0.0.0.0:8000"
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/app
     ports:
@@ -28,11 +21,11 @@ services:
     depends_on:
       - db
     environment:
-      DB_NAME: mydatabase
+      DB_NAME: mydb
       DB_USER: user
-      DB_PASSWORD: userpassword
+      DB_PASSWORD: password
       DB_HOST: db
       DB_PORT: 3306
 
 volumes:
-  mysql_data:
+  dbdata:
