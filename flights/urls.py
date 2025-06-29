@@ -1,7 +1,7 @@
 
 from django.urls import path
-from .views import InspirationView
+from .views import inspiration_search_view
 
 urlpatterns = [
-    path('inspiration/', InspirationView.as_view(), name='inspiration'),
+    path('inspiration/', inspiration_search_view, name='inspiration'),
 ]
