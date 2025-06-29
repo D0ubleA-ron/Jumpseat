@@ -1,21 +1,30 @@
 # flights/views.py
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
+
+from django.shortcuts import render
+from .forms import InspirationSearchForm
 from .services.amadeus import get_inspiration
 
-class InspirationView(APIView):
-    def get(self, request):
-        origin = request.query_params.get("origin")
-        budget = request.query_params.get("budget")
+def inspiration_search_view(request):
+    results = None
+    error = None
 
-        if not origin or not budget:
-            return Response({"error": "origin and budget are required."},
-                            status=status.HTTP_400_BAD_REQUEST)
+    if request.method == "GET":
+        form = InspirationSearchForm(request.GET or None)
 
-        try:
-            data = get_inspiration(origin, budget)
-            return Response(data, status=status.HTTP_200_OK)
-        except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        if form.is_valid():
+            origin = form.cleaned_data["origin"]
+            budget = form.cleaned_data["budget"]
+            currency = form.cleaned_data["currency"] or "USD"
 
+            try:
+                results = get_inspiration(origin.upper(), budget, currency.upper())
+            except Exception as e:
+                error = str(e)
+        else:
+            form = InspirationSearchForm()
+
+    return render(request, "flights/inspiration_search.html", {
+        "form": form,
+        "results": results,
+        "error": error
+    })

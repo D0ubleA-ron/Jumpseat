@@ -14,12 +14,13 @@ def get_access_token():
     response.raise_for_status()  # Raise error if failed
     return response.json()['access_token']
 
-def get_inspiration(origin, budget):
+def get_inspiration(origin, budget, currency='CAD'):
     endpoint = "https://test.api.amadeus.com/v1/shopping/flight-destinations"
     headers = {"Authorization": f"Bearer {get_access_token()}"}
     params = {
         "origin": origin,
         "maxPrice": budget,
+        "currency": currency
     }
     response = requests.get(endpoint, headers=headers, params=params)
     return response.json()
