@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flight Inspiration Search</title>
+</head>
+<body>
+    <h1>Search for Flight Inspiration</h1>
+
+    <form method="get">
+        {{ form.as_p }}
+        <button type="submit">Search</button>
+    </form>
+
+    {% if error %}
+        <p style="color: red;">Error: {{ error }}</p>
+    {% endif %}
+
+    {% if results and results.data %}
+        <h2>Results:</h2>
+        <ul>
+            {% for flight in results.data %}
+                <li>
+                    To {{ flight.destination }}: {{ flight.price.total }} {{ flight.price.currency }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% elif results %}
+        <p>No results found.</p>
+    {% endif %}
+</body>
+</html>
