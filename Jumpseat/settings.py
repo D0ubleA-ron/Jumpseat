@@ -36,6 +36,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'flights',
     'users',
+    'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -135,5 +136,5 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AMADEUS_API_KEY = os.environ.get("AMADEUS_API_KEY")
-AMADEUS_API_SECRET = os.environ.get("AMADEUS_API_SECRET")
+AMADEUS_CLIENT_ID = os.environ.get("AMADEUS_CLIENT_ID")
+AMADEUS_CLIENT_SECRET = os.environ.get("AMADEUS_CLIENT_SECRET")
