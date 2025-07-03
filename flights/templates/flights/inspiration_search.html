@@ -20,7 +20,10 @@
         <ul>
             {% for flight in results.data %}
                 <li>
-                    To {{ flight.destination }}: {{ flight.price.total }} {{ flight.price.currency }}
+                    To {{ flight.destination }}: 
+                    Cost {{ flight.price.total }} {{ flight.price.currency }} 
+                    Departure Date: {{ flight.departureDate }} 
+                    Return Date: {{ flight.returnDate }}
                 </li>
             {% endfor %}
         </ul>
