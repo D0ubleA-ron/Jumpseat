@@ -16,9 +16,10 @@ def inspiration_search_view(request):
             budget = form.cleaned_data["budget"]
             currency = form.cleaned_data["currency"] or "USD"
             departureDate = form.cleaned_data["departure_date"]
+            duration = form.cleaned_data["duration"]
 
             try:
-                results = get_inspiration(origin.upper(), budget, currency.upper(), departureDate)
+                results = get_inspiration(origin.upper(), budget, currency.upper(), departureDate, duration)
             except Exception as e:
                 error = str(e)
         else:

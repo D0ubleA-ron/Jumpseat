@@ -9,3 +9,5 @@ class InspirationSearchForm(forms.Form):
         input_formats=['%Y-%m-%d'],
         widget=forms.DateInput(attrs={'type': 'date', 'class': 'border border-gray-300 rounded p-2 w-full'})
     )
+    duration = forms.CharField(max_length=2, initial='1', widget=forms.TextInput(attrs={'class': 'border border-gray-300 rounded p-2 w-full'}))
+

@@ -4,36 +4,46 @@
     <title>Flight Inspiration Search</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 min-h-screen flex items-center justify-center">
-    <div class="bg-white p-8 rounded shadow-md w-full max-w-lg">
-        <h1 class="text-2xl font-bold mb-6 text-center">Search for Flight Inspiration</h1>
+<body class="bg-gray-50 min-h-screen flex flex-col items-center py-10">
 
-        <form method="get" class="space-y-4">
-            {{ form.as_p }}
-            <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">
-                Search
-            </button>
-        </form>
+    <h1 class="text-3xl font-bold mb-6 text-gray-800">✈️ Search for Flight Inspiration</h1>
 
+    <form method="get" class="bg-white shadow-md rounded-lg p-6 w-full max-w-md space-y-4">
+        {{ form.as_p }}
+        <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition">
+            Search Flights
+        </button>
+    </form>
+
+    <div id="results" class="mt-8 w-full max-w-2xl">
         {% if error %}
-            <p class="text-red-500 mt-4">Error: {{ error }}</p>
+            <p class="text-red-500 font-semibold">{{ error }}</p>
         {% endif %}
 
         {% if results and results.data %}
-            <h2 class="text-xl font-semibold mt-6">Results:</h2>
-            <ul class="mt-2 space-y-2">
+            <h2 class="text-2xl font-semibold mb-4 text-gray-700">Results:</h2>
+            <ul class="space-y-4">
                 {% for flight in results.data %}
-                    <li class="border p-2 rounded shadow-sm">
-                        <div><strong>To:</strong> {{ flight.destination }}</div>
-                        <div><strong>Cost:</strong> {{ flight.price.total }} {{ flight.price.currency }}</div>
-                        <div><strong>Departure Date:</strong> {{ flight.departureDate }}</div>
-                        <div><strong>Return Date:</strong> {{ flight.returnDate }}</div>
+                    <li class="bg-white rounded-lg shadow p-4">
+                        <div class="font-semibold text-lg text-blue-700">
+                            Destination: {{ flight.destination }}
+                        </div>
+                        <div class="mt-1 text-gray-600">
+                            Price: {{ flight.price.total }} {{ flight.price.currency }}
+                        </div>
+                        <div class="mt-1 text-gray-600">
+                            Departure: {{ flight.departureDate }}
+                        </div>
+                        <div class="mt-1 text-gray-600">
+                            Return: {{ flight.returnDate }}
+                        </div>
                     </li>
                 {% endfor %}
             </ul>
         {% elif results %}
-            <p class="mt-4">No results found.</p>
+            <p class="text-gray-500 text-lg">No results found.</p>
         {% endif %}
     </div>
+
 </body>
 </html>
