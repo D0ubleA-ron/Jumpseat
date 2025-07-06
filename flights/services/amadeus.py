@@ -17,6 +17,7 @@ def get_access_token():
 def get_inspiration(origin, budget, currency='CAD', departureDate=None, duration=None):
     endpoint = "https://test.api.amadeus.com/v1/shopping/flight-destinations"
     headers = {"Authorization": f"Bearer {get_access_token()}"}
+    
     params = {
         "origin": origin,
         "maxPrice": budget,
