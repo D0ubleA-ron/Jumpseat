@@ -11,3 +11,12 @@ class InspirationSearchForm(forms.Form):
     )
     duration = forms.CharField(max_length=2, initial='1', widget=forms.TextInput(attrs={'class': 'border border-gray-300 rounded p-2 w-full'}))
 
+class AIInspirationSearchFrom(forms.Form):
+    query = forms.CharField(
+        widget=forms.Textarea(attrs={
+            'class': 'border border-gray-300 rounded p-2 w-full',
+            'rows': 4,
+            'placeholder': 'Describe your flight search...'
+        }),
+        help_text="e.g. Find me a flight from YYZ to anywhere under $500, leaving in August for 7 days."
+    )

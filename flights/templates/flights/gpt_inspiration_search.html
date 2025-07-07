@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI-Powered Flight Search</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col items-center py-10">
+
+    <h1 class="text-3xl font-bold mb-6 text-gray-800">🤖 AI-Powered Flight Search</h1>
+
+    <form method="post" class="bg-white shadow-md rounded-lg p-6 w-full max-w-md space-y-4">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition">
+            Search with AI
+        </button>
+    </form>
+
+    <div id="results" class="mt-8 w-full max-w-2xl">
+        {% if error %}
+            <p class="text-red-500 font-semibold">{{ error }}</p>
+        {% endif %}
+
+        {% if results and results.data %}
+            <h2 class="text-2xl font-semibold mb-4 text-gray-700">Results:</h2>
+            <ul class="space-y-4">
+                {% for flight in results.data %}
+                    <li class="bg-white rounded-lg shadow p-4">
+                        <div class="font-semibold text-lg text-blue-700">
+                            Destination: {{ flight.destination }}
+                        </div>
+                        <div class="mt-1 text-gray-600">
+                            Price: {{ flight.price.total }} {{ flight.price.currency }}
+                        </div>
+                        <div class="mt-1 text-gray-600">
+                            Departure: {{ flight.departureDate }}
+                        </div>
+                        <div class="mt-1 text-gray-600">
+                            Return: {{ flight.returnDate }}
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% elif results %}
+            <p class="text-gray-500 text-lg">No results found.</p>
+        {% endif %}
+    </div>
+
+</body>
+</html>

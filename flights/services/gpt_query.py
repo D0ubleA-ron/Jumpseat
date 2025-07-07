@@ -1,7 +1,7 @@
 from openai import OpenAI
 import json
 import os
-from amadeus import get_inspiration
+from flights.services.amadeus import get_inspiration
 from datetime import date
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))  
@@ -12,7 +12,7 @@ def flight_query_structure(query):
         "id": "pmpt_686ae690e25c819588a4e13cc068e9df026d04b8eb8a20f6",
         "version": "3",
     },
-    input = query
+    input = "Today is " + str(date.today()) + "." + query
     
 )
     return(json.loads(response.output[0].content[0].text))
@@ -36,4 +36,4 @@ def flight_query_inspiration(query):
     except Exception as e:
         raise RuntimeError(f"Failed to fetch inspiration: {str(e)}") from e
     
-#print(flight_query_inspiration("Today is " + str(date.today()) + "." + "Find me a flight from Madrid to anywhere under $500, leaving next week sunday"))
+#print(flight_query_inspiration("Find me a flight from Madrid to anywhere under $500, leaving next week sunday"))

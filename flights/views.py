@@ -1,8 +1,9 @@
 # flights/views.py
 
 from django.shortcuts import render
-from .forms import InspirationSearchForm
+from .forms import InspirationSearchForm, AIInspirationSearchFrom
 from .services.amadeus import get_inspiration
+from .services.gpt_query import flight_query_inspiration
 
 def inspiration_search_view(request):
     results = None
@@ -26,6 +27,26 @@ def inspiration_search_view(request):
             form = InspirationSearchForm()
 
     return render(request, "flights/inspiration_search.html", {
+        "form": form,
+        "results": results,
+        "error": error
+    })
+def gpt_inspiration_search_view(request):
+    results = None
+    error = None
+
+    if request.method == "POST":
+        form = AIInspirationSearchFrom(request.POST)
+        if form.is_valid():
+            query = form.cleaned_data["query"]
+            try:
+                results = flight_query_inspiration(query)
+            except Exception as e:
+                error = str(e)
+    else:
+        form = AIInspirationSearchFrom()
+
+    return render(request, "flights/gpt_inspiration_search.html", {
         "form": form,
         "results": results,
         "error": error
