@@ -18,5 +18,5 @@ class AIInspirationSearchFrom(forms.Form):
             'rows': 4,
             'placeholder': 'Describe your flight search...'
         }),
-        help_text="e.g. Find me a flight from YYZ to anywhere under $500, leaving in August for 7 days."
+        help_text="e.g. Find me a flight from YYZ to anywhere under $500, leaving in August for 7 days. **NOTE:** Does not support multi-city searches nor date ranges yet."
     )
