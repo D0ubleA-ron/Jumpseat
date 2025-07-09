@@ -26,4 +26,21 @@ def get_inspiration(origin, budget, currency='CAD', departureDate=None, duration
         "duration": duration
     }
     response = requests.get(endpoint, headers=headers, params=params)
-    return response.json()
+    data = response.json()
+    
+    if 'data' in data:
+        filtered_data = [
+            item for item in data['data']
+            if float(item['price']['total']) <= float(budget)
+        ]
+        unique_destinations = {}
+        for item in filtered_data:
+            destination = item['destination']
+            price = float(item['price']['total'])
+            
+            if (destination not in unique_destinations or 
+                price < float(unique_destinations[destination]['price']['total'])):
+                unique_destinations[destination] = item
+    data['data'] = list(unique_destinations.values())
+    print(f"Filtered data: {data['data']}")
+    return data
