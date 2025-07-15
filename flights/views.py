@@ -60,28 +60,27 @@ def gpt_inspiration_search_view(request):
 def remove_query_params(url, params_to_remove):
     parsed_url = urlparse(url)
     query_params = parse_qs(parsed_url.query)
-
     for param in params_to_remove:
         query_params.pop(param, None)
-
     new_query = urlencode(query_params, doseq=True)
-    new_url = urlunparse(parsed_url._replace(query=new_query))
-    return new_url
+    return urlunparse(parsed_url._replace(query=new_query))
 
-def proxy_view(request):
-    amadeus_url = request.GET.get("url")
-    if not amadeus_url:
-        return HttpResponseBadRequest("Missing 'url' parameter.")
+
     
-    cleaned_url = remove_query_params(amadeus_url, ['viewBy', 'duration'])
+def flight_offers_view(request):
+    raw_url = request.GET.get("url")
+    if not raw_url:
+        return render(request, "flights/flight_offers.html", {"offers": [], "error": "Missing URL."})
+
+    cleaned_url = remove_query_params(raw_url, ["viewBy", "duration"])
 
     try:
-        token = get_access_token()  # Ensure you have a function to get the token
-        headers = {
-            "Authorization": f"Bearer {token}"
-        }
+        token = get_access_token()
+        headers = {"Authorization": f"Bearer {token}"}
         response = requests.get(cleaned_url, headers=headers)
         response.raise_for_status()
-        return JsonResponse(response.json(), safe=False)
-    except requests.RequestException as e:
-        return JsonResponse({"error": str(e)}, status=500)
+        data = response.json()
+        offers = data.get("data", [])
+        return render(request, "flights/flight_offers.html", {"offers": offers})
+    except Exception as e:
+        return render(request, "flights/flight_offers.html", {"offers": [], "error": str(e)})

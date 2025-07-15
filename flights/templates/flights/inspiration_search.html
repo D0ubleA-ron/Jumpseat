@@ -39,9 +39,9 @@
                         </div>
 
                        <div class="mt-4 flex gap-4">
-                        <a href="{% url 'flight_proxy' %}?url={{ flight.links.flightOffers|urlencode }}"
-                        target="_blank"
-                        class="w-full text-center bg-green-500 text-white py-2 rounded hover:bg-green-600 transition">
+                        <a href="{% url 'flight_offers' %}?url={{ flight.links.flightOffers|urlencode }}"
+                           target="_blank"
+                           class="w-full text-center bg-green-500 text-white py-2 rounded hover:bg-green-600 transition">
                             View Offers
                         </a>
                     </div>
