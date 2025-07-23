@@ -56,6 +56,10 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'Jumpseat.urls'
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://jumpseat-production.up.railway.app',
+]
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
